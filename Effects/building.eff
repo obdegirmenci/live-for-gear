@@ -49,10 +49,10 @@
 		</texture>
 
 		<!-- Reflection -->
-		<reflection-enabled type="int">1</reflection-enabled>
-		<reflect-map-enabled type="int">1</reflect-map-enabled>
+		<reflection-enabled type="int">0</reflection-enabled>
+		<reflect-map-enabled type="int">0</reflect-map-enabled>
 		<reflection-correction type="float">0</reflection-correction>
-		<reflection-dynamic type="int">1</reflection-dynamic>
+		<reflection-dynamic type="int">0</reflection-dynamic>
 		<reflection-fresnel type="float">0.1</reflection-fresnel>
 		<reflection-rainbow type="float">0.1</reflection-rainbow>
 		<reflection-noise type="float">0.0</reflection-noise>
@@ -98,13 +98,19 @@
 		<shade-model>flat</shade-model>
 		<cull-face>back</cull-face>
 		<building-flag type="int">1</building-flag>
+
+		<!-- roof snow in Shaders/building-ALS-fast.frag (same properties the road effect uses) -->
+		<bld_snow_level><use>/environment/snow-level-m</use></bld_snow_level>
+		<bld_snow_thickness><use>/environment/surface/snow-thickness-factor</use></bld_snow_thickness>
 	</parameters>
 
 	<technique n="4">
 		<!-- Atmospheric scattering technique with model shader-->
 		<pass>
 			<program>
-				<vertex-shader n="0">Shaders/building-model-ALS-ultra.vert</vertex-shader>
+				<!-- <vertex-shader n="0">Shaders/building-model-ALS-ultra.vert</vertex-shader> -->
+				<vertex-shader n="0">Shaders/building-ALS.vert</vertex-shader>
+				<fragment-shader n="0">Shaders/building-ALS-fast.frag</fragment-shader>
 				<attribute>
 					<name>instancePosition</name>
 					<index>6</index>
@@ -122,12 +128,25 @@
 					<index>11</index>
 				</attribute>
 			</program>
+
+			<!-- explicit high indices (n) so these are appended to the inherited uniforms instead of
+			     overwriting one of them -->
+			<uniform n="900">
+				<name>bld_snow_level</name>
+				<type>float</type>
+				<value><use>bld_snow_level</use></value>
+			</uniform>
+			<uniform n="901">
+				<name>bld_snow_thickness</name>
+				<type>float</type>
+				<value><use>bld_snow_thickness</use></value>
+			</uniform>
 		</pass>
 	</technique>
 
-	<technique n="5">
+	<!-- <technique n="5"> -->
 		<!-- Base Atmospheric scattering technique -->
-		<pass>
+		<!-- <pass>
 			<program>
 				<vertex-shader n="0">Shaders/building-ALS.vert</vertex-shader>
 				<attribute>
@@ -172,6 +191,6 @@
 				</attribute>
 			</program>
 		</pass>
-	</technique>
+	</technique> -->
 
 </PropertyList>

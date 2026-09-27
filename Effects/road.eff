@@ -33,6 +33,8 @@
 	<grain-texture-enabled type="int">0</grain-texture-enabled>
 	<grain-magnification type="float">50</grain-magnification>
         <lightmap-enabled type="int">1</lightmap-enabled>
+	<!-- wet roads in rain (shader only does work while wetness > 0) -->
+	<rain-enabled type="int">1</rain-enabled>
 	<normalmap-enabled>0</normalmap-enabled>
         <lightmap-color type="vec3d" n="0"> 0.941 0.682 0.086 </lightmap-color>
     	<snow_level><use>/environment/snow-level-m</use></snow_level>

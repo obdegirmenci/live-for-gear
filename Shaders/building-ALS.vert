@@ -35,6 +35,7 @@ varying vec4 ecPosition;
 //varying float vertex_alt;
 varying float yprime_alt;
 varying float mie_angle;
+varying vec3 bld_hazeBase;   // haze base colour, evaluated per vertex (was per pixel in the .frag)
 
 uniform int colorMode;
 uniform float hazeLayerAltitude;
@@ -47,6 +48,7 @@ uniform float overcast;
 uniform float ground_scattering;
 
 uniform bool use_IR_vision;
+uniform float air_pollution;
 
 // This is the value used in the skydome scattering shader - use the same here for consistency?
 const float EarthRadius = 5800000.0;
@@ -68,6 +70,24 @@ float light_func (in float x, in float a, in float b, in float c, in float d, in
 if (x < -15.0) {return 0.0;}
 
 return e / pow((1.0 + a * exp(-b * (x-c)) ),(1.0/d));
+}
+
+// --- haze base colour (same curves as the stock ALS hazing shader / building-ALS-fast.frag) ---
+float bld_light_curve(in float x, in float a, in float b, in float c, in float d, in float e)
+{
+    x = x - 0.5;
+    if (x > 30.0)  return e;
+    if (x < -15.0) return 0.0;
+    return e / pow(1.0 + a * exp(-b * (x - c)), 1.0 / d);
+}
+
+vec3 bld_hazeColor(in float lightArg)
+{
+    vec3 c;
+    c.r = bld_light_curve(lightArg, 8.305e-06, 0.161, 4.827 - 3.0 * air_pollution, 3.04e-05, 1.0);
+    c.g = bld_light_curve(lightArg, 3.931e-06, 0.264, 3.827, 7.93e-06, 1.0);
+    c.b = bld_light_curve(lightArg, 1.330e-05, 0.264, 1.527 + 2.0 * air_pollution, 1.08e-05, 1.0);
+    return c;
 }
 
 const float c_precision = 128.0;
@@ -341,6 +361,9 @@ if (use_IR_vision)
     gl_FrontColor.rgb = constant_term.rgb;
     gl_BackColor.rgb = constant_term.rgb;
     //gl_FrontColor.a = mie_angle; gl_BackColor.a = mie_angle;
+
+    // yprime_alt is final here; the fragment shader used the identical formula for lightArg
+    bld_hazeBase = bld_hazeColor((terminator - yprime_alt) / 100000.0);
 
     ecPosition = gl_ModelViewMatrix * vec4(position, 1.0);
     setupShadows(ecPosition);
