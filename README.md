@@ -24,6 +24,15 @@ since its detailed cockpit (multiple live MFDs, high-poly model) is one of
 the more GPU-demanding options for this kind of low-altitude city test —
 closer to a worst-case than a light GA aircraft would be.
 
+<img width="1916" height="1005" alt="preview-1-osaka-noon" src="https://github.com/user-attachments/assets/39d9e5fd-6481-4060-8cde-df7d2d3ac00d" />
+<img width="1916" height="1005" alt="preview-2-osaka-evening" src="https://github.com/user-attachments/assets/4cbab2d6-57b3-43e9-bd01-3f664654052f" />
+<img width="1916" height="1005" alt="preview-3-osaka-night" src="https://github.com/user-attachments/assets/f26614a8-1637-4e82-b57f-8e84a0d1877a" />
+
+<img width="1916" height="1005" alt="preview-4-osaka-morning" src="https://github.com/user-attachments/assets/66f7e552-7cc0-4a05-b129-b997ac175e11" />
+<img width="1916" height="1005" alt="preview-5-osaka-dawn" src="https://github.com/user-attachments/assets/dfdadef3-4528-455d-849a-84b0662b6bcf" />
+
+
+
 ### Coordinates
 ```
 # Osaka
